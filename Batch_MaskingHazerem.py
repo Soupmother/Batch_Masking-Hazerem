@@ -70,9 +70,11 @@ for root, dirnames, filenames in os.walk("working_dir"):
 #                                                    The basename of the file is L71132042_04220091031_MTL.txt
 #                                                    os.path.basename(image)
 #
-#                                                    The name of the file hazerem (via maskfili) is looking for is L71132042_04220091031_mask.pix
+#                                                    The name of the file hazerem (via maskfili) is looking for is 
+#                                                    L71132042_04220091031_mask.pix
 #                                                    So I tell maskfili to look for a file that is same as the basename, but 
-#                                                    split at _MTL, and then joined to _mask.pix
+#                                                    split before _MTL, and then joined to _mask.pix. I did that by figuring out 
+#                                                    what the filo (output file) naming string was doing, and cutting it up. 
 #                                                                                                   FUGLY
 for image in matches:
     try:
