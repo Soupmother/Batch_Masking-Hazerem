@@ -14,7 +14,7 @@ if not os.path.isdir(haze_output_dir):
     os.mkdir(haze_output_dir)
     
 # Set input file criteria - note that this list doens not contain a _mask.pix image previously created by 'masking', so
-# is is not a useful opperation for haze removal, but just a test to see where hazerem is going wrong
+# is is not a useful operation for haze removal, but just a test to see where hazerem is going wrong
 input_files = []
 
 for r, d, f in os.walk(working_dir):
