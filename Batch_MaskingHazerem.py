@@ -70,7 +70,7 @@ for image in matches:
         hazerem(fili='-'.join([image, 'MS']),
                 fili_pan='-'.join([image, 'PAN']),
                 maskfili='_mask.'.join([os.path.basename(image).split('_MTL')[0], 'pix']),
-                asensor = "Landsat-7 ETM+"
+                asensor='Landsat-7 ETM+'
                 hazecov=[15],
                 filo=os.path.join(haze_output_dir, '_haze_ms.'.join([os.path.basename(image).split('_MTL')[0], 'pix'])),
                 filo_pan=os.path.join(haze_output_dir, '_haze_pan.'.join([os.path.basename(image).split('_MTL')[0], 'pix'])))
@@ -84,7 +84,7 @@ for image in matches:
     try:
         hazerem(fili='-'.join([image, 'MS']),
                 maskfili='_mask.'.join([os.path.basename(image).split('_MTL')[0], 'pix']),
-                asensor = "Landsat-5 TM"
+                asensor='Landsat-5 TM'
                 hazecov=[15],
                 filo=os.path.join(haze_output_dir, '_haze_ms.'.join([os.path.basename(image).split('_MTL')[0], 'pix'])))
     except PCIException, e:
