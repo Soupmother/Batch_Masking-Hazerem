@@ -64,7 +64,16 @@ for root, dirnames, filenames in os.walk("working_dir"):
         for filename in fnmatch.filter(filenames, extensions):
             matches.append(os.path.join(root, filename))        
 
-# Run haze removal on Landsat 7 images using files from 'matches' list
+# Run haze removal on Landsat 7 images using files from 'matches' list. The string defined for 'maskfili' is ugly as sin, and
+# may be a source of this problem, but it's the only way I have figured out to tell hazerem that the mask file it's looking
+# for in the input list (matches) is named like this:
+#                                                    The basename of the file is L71132042_04220091031_MTL.txt
+#                                                    os.path.basename(image)
+#
+#                                                    The name of the file hazerem (via maskfili) is looking for is L71132042_04220091031_mask.pix
+#                                                    So I tell maskfili to look for a file that is same as the basename, but 
+#                                                    split at _MTL, and then joined to _mask.pix
+#                                                                                                   FUGLY
 for image in matches:
     try:
         hazerem(fili='-'.join([image, 'MS']),
