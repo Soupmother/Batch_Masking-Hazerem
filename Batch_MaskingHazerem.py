@@ -56,13 +56,23 @@ for image in input_files:
         print e        
 
 # Create new 'matches' list including '*.pix' output file from 'masking'        
-images = ['*_MTL.txt', '*_mask.pix']
-matches = []
+#images = ['*_MTL.txt', '*_mask.pix']
+#matches = []
 
-for root, dirnames, filenames in os.walk(working_dir):
-    for extensions in images:
-        for filename in fnmatch.filter(filenames, extensions):
-            matches.append(os.path.join(root, filename))        
+#for root, dirnames, filenames in os.walk(working_dir):
+#    for extensions in images:
+#        for filename in fnmatch.filter(filenames, extensions):
+#            matches.append(os.path.join(root, filename))
+
+# Trying to build this list a different way:
+
+in_dir = r'D:\PCI_Python\GLSvsL5'
+img_filter = ['*_MTL.txt', '*_mask.pix']
+
+def get_batch(in_dir, img_filter):
+    for r, d, f in os.walk(in_dir):
+        for in_file in fnmatch.filter(f, img_filter):
+            yield os.path.join(r, in_file)            
 
 # Run haze removal on Landsat 7 images using files from 'matches' list. The string defined for 'maskfili' is ugly as sin, and
 # may be a source of this problem, but it's the only way I have figured out to tell hazerem that the mask file it's looking
@@ -76,7 +86,7 @@ for root, dirnames, filenames in os.walk(working_dir):
 #                                                    split before _MTL, and then joined to _mask.pix. I did that by figuring out 
 #                                                    what the filo (output file) naming string was doing, and cutting it up. 
 #                                                                                                   FUGLY
-for image in matches:
+for image in get_batch:
     try:
         hazerem(fili='-'.join([image, 'MS']),
                 fili_pan='-'.join([image, 'PAN']),
@@ -91,7 +101,7 @@ for image in matches:
         print e       
 
 # Runs haze removal on the Landsat 5 images
-for image in matches:
+for image in get_batch:
     try:
         hazerem(fili='-'.join([image, 'MS']),
                 maskfili='_mask.'.join([os.path.basename(image).split('_MTL')[0], 'pix']),
