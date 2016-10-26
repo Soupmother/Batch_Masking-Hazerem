@@ -66,13 +66,13 @@ for image in input_files:
 
 # Trying to build this list a different way:
 
-in_dir = r'D:\PCI_Python\GLSvsL5'
 img_filter = ['*_MTL.txt', '*_mask.pix']
+haze_input_files = []
 
-def get_batch(in_dir, img_filter):
-    for r, d, f in os.walk(in_dir):
+def get_batch(working_dir, img_filter):
+    for r, d, f in os.walk(working_dir):
         for in_file in fnmatch.filter(f, img_filter):
-            yield os.path.join(r, in_file)            
+            haze_input_files.append(os.path.join(r, in_file))            
 
 # Run haze removal on Landsat 7 images using files from 'matches' list. The string defined for 'maskfili' is ugly as sin, and
 # may be a source of this problem, but it's the only way I have figured out to tell hazerem that the mask file it's looking
@@ -86,7 +86,7 @@ def get_batch(in_dir, img_filter):
 #                                                    split before _MTL, and then joined to _mask.pix. I did that by figuring out 
 #                                                    what the filo (output file) naming string was doing, and cutting it up. 
 #                                                                                                   FUGLY
-for image in get_batch:
+for image in haze_input_files:
     try:
         hazerem(fili='-'.join([image, 'MS']),
                 fili_pan='-'.join([image, 'PAN']),
@@ -101,7 +101,7 @@ for image in get_batch:
         print e       
 
 # Runs haze removal on the Landsat 5 images
-for image in get_batch:
+for image in haze_input_files:
     try:
         hazerem(fili='-'.join([image, 'MS']),
                 maskfili='_mask.'.join([os.path.basename(image).split('_MTL')[0], 'pix']),
